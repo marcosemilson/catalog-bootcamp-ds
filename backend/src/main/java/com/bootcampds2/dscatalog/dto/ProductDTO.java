@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.bootcampds2.dscatalog.entities.Category;
 import com.bootcampds2.dscatalog.entities.Product;
 
 public class ProductDTO implements Serializable {
@@ -39,6 +41,11 @@ public class ProductDTO implements Serializable {
 		date = entity.getDate();
 		description = entity.getDescription();
 		imgUrl = entity.getImgUrl();
+	}
+	
+	public ProductDTO(Product entity, Set<Category> categories) {
+		this(entity);
+		categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
 	}
 
 	public Long getId() {

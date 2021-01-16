@@ -2,7 +2,6 @@ package com.bootcampds2.dscatalog.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,10 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ManyToAny;
-
-import com.fasterxml.jackson.core.sym.Name;
-
 @Entity
 @Table(name = "tb_product")
 public class Product implements Serializable {
@@ -31,7 +26,7 @@ public class Product implements Serializable {
 	private String name;
 	private Double price;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Date date;
+	private Instant date;
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private String imgUrl;
@@ -50,7 +45,7 @@ public class Product implements Serializable {
 		
 	}
 
-	public Product(Long id, String name, Double price, Date date, String description, String imgUrl) {
+	public Product(Long id, String name, Double price, Instant date, String description, String imgUrl) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -84,11 +79,11 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public Date getDate() {
+	public Instant getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Instant date) {
 		this.date = date;
 	}
 
@@ -110,6 +105,14 @@ public class Product implements Serializable {
 
 	public Instant getCreatedAt() {
 		return createdAt;
+	}
+
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
 	public Instant getUpdatedAt() {
