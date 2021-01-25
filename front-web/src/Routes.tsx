@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import Navbar from './core/components/navbar';
 import Admin from './pages/admin';
 import Catalog from './pages/calalog';
+import ProductDetails from './pages/calalog/Components/ProductDetails';
 import Home from './pages/home';
 
 function Routes(){
@@ -13,8 +14,11 @@ function Routes(){
                 <Route path="/" exact > 
                     <Home />
                 </Route>
-                <Route path="/catalog" > 
+                <Route path="/products" exact> 
                     <Catalog />
+                </Route>
+                <Route path="/products/:productId" > 
+                    <ProductDetails />
                 </Route>
                 <Route path="/admin" > 
                     <Admin />
