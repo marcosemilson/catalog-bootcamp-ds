@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import Navbar from './core/components/navbar';
-import Admin from './pages/admin';
+import Admin from './pages/Admin';
 import Catalog from './pages/calalog';
 import ProductDetails from './pages/calalog/Components/ProductDetails';
 import Home from './pages/home';
