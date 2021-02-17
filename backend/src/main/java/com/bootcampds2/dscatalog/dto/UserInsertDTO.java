@@ -1,5 +1,6 @@
 package com.bootcampds2.dscatalog.dto;
 
+@UserInsertValid
 public class UserInsertDTO extends UserDTO {
     private static final long serialVersionUID = 1L;
     

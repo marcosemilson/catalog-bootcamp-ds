@@ -21,7 +21,7 @@ public class ProductDTO implements Serializable {
 	@Size(min=5, max = 60, message = "Deve ter entre 5 e 60 caracteres" )
 	@NotBlank(message = "Preenchimento obrigatorio")
 	private String name;
-	@Positive(message = "O Preço deve ser um alor positivo")
+	@Positive(message = "O Preço deve ser um Valor positivo")
 	private Double price;
 	@PastOrPresent(message = "A data não pode ser maior que a data atual")
 	private Instant date;
