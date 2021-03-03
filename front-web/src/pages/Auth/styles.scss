@@ -1,7 +1,7 @@
 .alph-container{
     display: flex;
     padding: 40px 40px 100px 140px;
-
+    justify-content: center;
 }
 
 .auth-info{
@@ -9,6 +9,7 @@
 }
 
 .auth-info-title{
+    margin-top: 35;
     font-size: 55px;
     line-height: 75px;
     letter-spacing: 0.015em;
