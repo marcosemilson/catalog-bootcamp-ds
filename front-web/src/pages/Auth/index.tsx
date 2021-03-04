@@ -1,5 +1,5 @@
 import React from 'react';
-import {ReactComponent as AuthImage} from 'core/assets/images/auth.svg';
+import {ReactComponent as AuthImage} from '../../core/assets/Images/auth.svg';
 import './styles.scss';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Components/Login';
@@ -13,6 +13,7 @@ const Auth = () => (
             <p className="auth-info-subtitle">
                 Faça parte do nosso catálogo de divulgação e <br />aumente a venda de seus produtos.
             </p>
+            <AuthImage />
         </div>
             <div className="auth-content">
             <Switch>
@@ -20,7 +21,7 @@ const Auth = () => (
                     <Login />
                 </Route>
                 <Route path="/admin/auth/register"> 
-                 
+                   
                 </Route>
                 <Route path="/admin/auth/recouver" > 
                    
