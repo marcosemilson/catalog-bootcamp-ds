@@ -31,9 +31,12 @@ export const getSessionData = () => {
 
 export const getAccessTokenDecoded = () => {
     const sessionData = getSessionData();
-
-    const tokenDecode = jwtDecode(sessionData.access_token)
-    return tokenDecode as accessToken
+    try{
+        const tokenDecode = jwtDecode(sessionData.access_token)
+        return tokenDecode as accessToken
+    } catch (error){ 
+        return {} as accessToken;
+    }
 }
 
 export const isTokenValid = () => {
@@ -55,5 +58,5 @@ export const isAllowwedByRole = (routesRoles: Role[] = []) => {
 
     const {authorities} = getAccessTokenDecoded();
 
-    return routesRoles.some(role => authorities.includes(role));
+    return routesRoles.some(role => authorities?.includes(role));
 }
