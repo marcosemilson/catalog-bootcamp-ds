@@ -1,4 +1,4 @@
-import { makeRequest } from 'core/utils/request';
+import { makePrivateRequest, } from 'core/utils/request';
 import BaseForm from 'pages/calalog/Components/BaseForm/inde';
 import React, { useState } from 'react';
 import './styles.scss'
@@ -36,7 +36,7 @@ function Form(){
                 id: formData.category
             }]
         }
-        makeRequest({url:"/products", method:'POST', data: payload})
+        makePrivateRequest({url:"/products", method:'POST', data: payload})
         .then(() =>{
             setFormData({name: '', category: '', price: 0, description: '' });
         });
