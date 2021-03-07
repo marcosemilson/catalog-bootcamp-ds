@@ -10,7 +10,7 @@ export type Product={
     price: number;
     imgUrl:string;
     date:string
-    categories: Category;
+    categories: [Category];
 }
 
 export type Category = {
