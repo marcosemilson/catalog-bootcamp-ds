@@ -1,21 +1,24 @@
 import Pagination from 'core/components/Pagination';
 import { ProductsResponse } from 'core/types/Product';
-import { makeRequest } from 'core/utils/request';
-import React, { useEffect, useState } from 'react';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import Products from '..';
+import { toast } from 'react-toastify';
 import Card from '../Card';
-import './styles.scss';
+import CardLoader from '../Loaders/ProductCardLoader';
 
 function List(){
     const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
     const [isLoading, setIsLoading]=useState(false);
-    const [activePage, setActivePage]=useState(0)
+    const [activePage, setActivePage]=useState(0);
+    const history = useHistory();
 
-    useEffect(()=>{
+    const getProducts = useCallback(() =>{
         const params = {
             page: activePage,
-            linesPerPage: 5,
+            linesPerPage: 4,
+            direction: 'ASC',
+            orderBy: 'id'
         }
         setIsLoading(true)
         makeRequest ({url: '/products', params})
@@ -23,10 +26,28 @@ function List(){
         .finally(()=>{
             setIsLoading(false)
         })
-    }, [activePage]);
-    const history = useHistory();
+    },[activePage]);
+
+    useEffect(()=>{
+        getProducts();
+    }, [getProducts]);
     const handleCreate = () =>{
         history.push('/admin/products/create');
+    }
+
+    const onRemove = (productId:number) => {
+        const confirm = window.confirm('Confirma exclusão do Produto?')
+
+        if (confirm){
+            makePrivateRequest({url: `/products/${productId}`, method:'DELETE'})
+            .then(() => {
+                toast.success('Produto excluido sucesso!');
+                getProducts();
+            })
+            .catch(() => {
+                toast.error('Erro ao excluir produto"');
+            })
+        }
     }
     return(
 
@@ -35,13 +56,14 @@ function List(){
                 ADICIONAR
             </button>
             <div className="admin-list-container">
-                {productsResponse?.content.map(product =>(
-                <Card product={product} key={product.id} />
-                ))}
+                {isLoading ? <CardLoader /> :(
+                    productsResponse?.content.map(product =>(
+                    <Card product={product} key={product.id} onRemove={onRemove} />
+                    ))  
+                )}
                 {productsResponse &&(
                 <Pagination 
                     totalPages={productsResponse.totalPages}
-                    activePage={activePage} 
                     onChange={page=>setActivePage(page)}
                 />
             )}

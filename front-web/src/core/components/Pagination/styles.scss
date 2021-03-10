@@ -4,6 +4,10 @@
     height: 40px;
     margin-top: 35px;
     align-items: center;
+
+    a:focus{
+        outline: none;
+    }
 }
 
 .pagination-item{
@@ -24,8 +28,11 @@
     
     &.active{
         background-color: #407BFF
-
     };
+
+    &:hover{
+        color: #FFF;
+    }
 }
 .pagination-previous{
     transform: rotate(-180deg);
@@ -49,4 +56,8 @@
     color: #E1E1E1;
     pointer-events: none;
 
+}
+
+.pagination{
+    align-items: center;
 }

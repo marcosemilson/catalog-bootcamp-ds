@@ -27,7 +27,7 @@ function BaseForm({ title, children } : Props){
                 </button>
                 <button 
                     className="btn btn-primary border-radius-10 mr-3">
-                    CADASTRAR
+                    SALVAR
                 </button>
             </div>
         </div>

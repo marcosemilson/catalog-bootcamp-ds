@@ -1,37 +1,36 @@
 import React from 'react';
 import './styles.scss';
 import { ReactComponent as ArrowIcon } from 'core/assets/Images/arrow.svg'
-import { generateList } from 'core/utils/list';
+import ReactPaginate from 'react-paginate';
 
 type Props = {
     totalPages: number;
-    activePage: number;
     onChange: (item: number) => void;        
 }
 
-function Pagination({totalPages, activePage, onChange}:Props){
-    const items = generateList(totalPages)
-    const previousClass = totalPages > 0 && activePage > 0 ? 'page-active' : 'page-inactive';
-    const nextClass = (activePage+1) < totalPages ? 'page-active' : 'page-inactive';
-
+function Pagination({totalPages, onChange}:Props){
+    const renderIcon = (type: 'previous' | 'next') => (
+        <ArrowIcon 
+                className={`pagination-${type}`}
+                data-testid ={`arrow-icon-${type}`}
+            />
+    );
     return(
         <div className="pagination-container">
-            <ArrowIcon 
-                className={`pagination-previous ${previousClass}`}
-                onClick={()=> onChange(activePage - 1)} 
-            />
-            {items.map(item =>(
-                <div 
-                    key ={item}
-                    className={`pagination-item ${item === activePage ? 'active' : ''}`}
-                    onClick={()=> onChange(item)}
-                >
-                {item + 1}
-            </div>
-            ))}
-            <ArrowIcon 
-                className={`pagination-next ${nextClass}`} 
-                onClick={()=> onChange(activePage+1)}
+            <ReactPaginate
+            pageCount={totalPages} 
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={1}
+            onPageChange={selecteditem => onChange(selecteditem.selected)}
+            previousLabel = {renderIcon('previous')}
+            nextLabel = {renderIcon('next')}
+            containerClassName = "pagination"
+            pageLinkClassName = "pagination-item"
+            breakClassName = "pagination-item"
+            activeLinkClassName = "active"
+            previousClassName="page-active"
+            nextClassName="page-active"
+            disabledClassName = "page-inactive"
             />
         </div>
 
