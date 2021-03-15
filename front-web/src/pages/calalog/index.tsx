@@ -1,28 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Category, ProductsResponse } from 'core/types/Product';
+import { ProductsResponse } from 'core/types/Product';
 import { makeRequest } from 'core/utils/request';
 import ProductCard from './Components/ProductCard';
 import ProductCardLoader from './Components/Loaders/ProductCardLoader';
 import './styles.scss'
 import Pagination from 'core/components/Pagination';
-import ProductFilters from 'core/components/ProductFilters';
+import ProductFilters, { filterForm } from 'core/components/ProductFilters';
+
 
 function Catalog() {
 
   const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
   const [isLoading, setIsLoading] = useState(false);
-  const [activePage, setActivePage] = useState(0);
-  const [name, setName] = useState('')
-  const [category, setCategory] = useState<Category>();
+  const [activePage, setActivePage] = useState(0)
 
-
-  const getProducts = useCallback(() => {
+  const getProducts = useCallback((filter?: filterForm) => {
     const params = {
       page: activePage,
       linesPerPage: 12,
-      name,
-      categoryId: category?.id
+      name: filter?.name,
+      categoryId: filter?.categoryId
     }
     setIsLoading(true)
     makeRequest({ url: '/products', params })
@@ -30,44 +28,19 @@ function Catalog() {
       .finally(() => {
         setIsLoading(false)
       })
-  }, [activePage, name, category])
+  }, [activePage])
 
   useEffect(() => {
     getProducts()
   }, [getProducts]);
-
-  const handleChangeName = (name: string) => {
-    setActivePage(0)
-    setName(name)
-
-  }
-
-  const handleChangeCategory = (category: Category) => {
-    setActivePage(0)
-    setCategory(category);
-
-  }
-
-  const clearFilters = () => {
-    setActivePage(0)
-    setCategory(undefined);
-    setName('');
-
-  }
 
   return (
     <div className="catalog-container">
       <div className="d-flex justify-content-between">
         <h1 className="catalog-title">
           Catálogo de Produtos
-        </h1>
-        <ProductFilters
-          name={name}
-          category={category}
-          handleChangeName={handleChangeName}
-          handleChangeCategory={handleChangeCategory}
-          clearFilters={clearFilters}
-        />
+                </h1>
+        <ProductFilters onSearch={filter => getProducts(filter)} />
       </div>
       <div className="catalog-products">
         {isLoading ? <ProductCardLoader /> : (
