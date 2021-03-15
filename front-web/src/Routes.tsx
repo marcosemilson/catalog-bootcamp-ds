@@ -2,7 +2,7 @@ import Auth from 'pages/Auth';
 import React from 'react';
 import {Router, Switch, Route, Redirect} from 'react-router-dom'
 import Navbar from './core/components/navbar';
-import Admin from './pages/Admin';
+import Admin from './pages/admin';
 import Catalog from './pages/calalog';
 import ProductDetails from './pages/calalog/Components/ProductDetails';
 import Home from './pages/home';
