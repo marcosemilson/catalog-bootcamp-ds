@@ -35,3 +35,16 @@
     }
 }
 
+@media(max-width: 768px){
+    .upload-button-container{
+        word-wrap: none;
+        width: 200px;
+    }
+}
+
+@media(max-width: 576px){
+    .upload{
+        word-wrap: none;
+        width: 200px;
+    }
+}

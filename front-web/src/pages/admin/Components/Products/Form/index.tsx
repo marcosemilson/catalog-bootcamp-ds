@@ -1,22 +1,24 @@
-import { makePrivateRequest, makeRequest } from 'core/utils/request';
-import BaseForm from 'pages/calalog/Components/BaseForm/inde';
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import DescriptionField from './DescriptionField';
-import './styles.scss';
 import Select from 'react-select';
+import { useHistory, useParams } from 'react-router';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { Category } from 'core/types/Product';
-import PriceField from './PriceField';
+import BaseForm from 'pages/calalog/Components/BaseForm/index';
 import ImageUpload from './ImageUpload';
+import DescriptionField from './DescriptionField';
+import { convertToRaw, EditorState } from 'draft-js';
+import PriceField from './PriceField';
+import draftToHtml from 'draftjs-to-html';
+import { stateFromHTML } from 'draft-js-import-html';
+import './styles.scss';
 
 
 export type FormState = {
     name: string;
     price: number;
-    description: string;
-    // date: string;
+    description: EditorState;
     imgUrl: string;
     categories: Category[];
 }
@@ -42,12 +44,12 @@ function Form(){
             //setIsLoading(true);
             makeRequest({ url: `/products/${productId}` })
                 .then(response => {
+                    const contentState = stateFromHTML(response.data.description);
+                    const descriptionAsEditorState = EditorState.createWithContent(contentState)
                     setValue('name', response.data.name);
                     setValue('price', response.data.price);
-                    setValue('description', response.data.description);
-                    // setValue('date', response.data.date)
-                    setValue('categories', response.data.categories)
-
+                    setValue('description', descriptionAsEditorState);
+                    setValue('categories', response.data.categories);
                     setProductImgUrl(response.data.imgUrl);
                 })
          }   
@@ -58,11 +60,16 @@ function Form(){
       makeRequest({url:'/categories'})
         .then(response => setCategories(response.data.content))
         .finally(()=> setIsLoadingCategories(false))
-    }, [])
+    }, []);
+
+    const getDescriptionFromEditor = (editorState:EditorState) => {
+        return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    }
 
     const onSubmit = (data: FormState) =>{
       const payload = {
         ...data,
+        description: getDescriptionFromEditor(data.description),
         imgUrl: uploadedImgUrl || productImgUrl
       }
         makePrivateRequest({
@@ -88,7 +95,7 @@ function Form(){
             <BaseForm 
             title= {formTitle}
             >
-                <div className="row">
+                <div className="product-form-container">
                     <div className="col-6">
                         <div className="margin-botton-30">
                             <input 
@@ -138,22 +145,6 @@ function Form(){
                                 </div>
                             )}
                         </div>
-                        {/* <div className="margin-botton-30">
-                            <input 
-                            ref={register({
-                                required: "Campo obrigatório"
-                            })}
-                            name="date"
-                            type="date" 
-                            className="form-control input-base"
-                            placeholder = "Data de Cadastro"
-                            />
-                            {errors.date &&(
-                                <div className="invalid-feedback d-block">
-                                    {errors.date.message}
-                                </div>
-                            )}
-                        </div> */}
                         <div className="margin-botton-30">
                             <ImageUpload 
                             onUploadSuccess={onUploadSuccess}
@@ -166,7 +157,7 @@ function Form(){
                         <DescriptionField control={control}/>
                         {errors.description &&(
                             <div className="invalid-feedback d-block">
-                                {errors.description.message}
+                                {errors.description}
                             </div>
                          )}
                     </div>

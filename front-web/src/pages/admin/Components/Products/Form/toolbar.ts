@@ -1,7 +1,7 @@
-import Bold from 'core/assets/images/bold-icon.svg';
-import Italic from 'core/assets/images/italic-icon.svg';
-import Unordered from 'core/assets/images/unordered-icon.svg';
-import Ordered from 'core/assets/images/ordered-icon.svg';
+import Bold from 'core/assets/Images/bold-icon.svg';
+import Italic from 'core/assets/Images/italic-icon.svg'
+import Unordered from 'core/assets/Images/unordered-icon.svg';
+import Ordered from 'core/assets/Images/ordered-icon.svg';
 
 export const toolbar = {
   options: ['inline', 'list'],
@@ -15,4 +15,5 @@ export const toolbar = {
     unordered: { icon: Unordered, className: 'custom-icon' },
     ordered: { icon: Ordered, className: 'custom-icon' }
   },
-}
+};
+export default toolbar;

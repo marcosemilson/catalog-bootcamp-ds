@@ -6,7 +6,7 @@ import Navbar from './Components/Navbar';
 import Products from './Components/Products';
 import './styles.scss'
 
-function Admin(){
+function admin(){
     return(
         <div className="admin-container">
             <Navbar />
@@ -30,5 +30,5 @@ function Admin(){
     )
 };
 
-export default Admin;
+export default admin;
 

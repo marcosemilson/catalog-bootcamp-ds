@@ -2,7 +2,7 @@
     display: flex;
     padding: 40px 40px 100px 0;
     justify-content: center;
-    background: url('../../core/assets/Images/auth-background.svg') no-repeat;
+    background: url('../../core/assets/Images/auth-background.svg') no-repeat bottom;
     background-size: 100%;
 }
 
@@ -27,6 +27,15 @@
     color: #9E9E9E;
 }
 
-.auth-content{
+@media(max-width: 768px){
+    .auth-info{
+        display: none;
+    }
+}
 
+@media(max-width: 576px){
+    .auth-info{
+        margin: 0;
+        padding: 40px 0px 0px 0px;
+    } 
 }
